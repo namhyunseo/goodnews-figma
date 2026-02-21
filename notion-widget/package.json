@@ -17,12 +17,18 @@
   },
   "figma-plugin": {
     "editorType": [
-      "figjam"
+      "figjam",
+      "figma"
     ],
     "containsWidget": true,
     "id": "notion-widget",
     "name": "Notion Widget",
     "main": "src/main.tsx",
-    "ui": "src/ui.tsx"
+    "networkAccess": {
+      "allowedDomains": [
+        "https://*.vercel.app"
+      ],
+      "reasoning": "노션 DB 데이터를 불러오기 위함"
+    }
   }
 }
