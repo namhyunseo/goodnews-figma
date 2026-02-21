@@ -79,7 +79,7 @@ function NotionWidget() {
           Notion Tasks
         </Text>
         <AutoLayout
-          padding={{ padding: 8, horizontal: 12 }}
+          padding={{ vertical: 8, horizontal: 12 }}
           fill="#F0F0F0"
           cornerRadius={6}
           onClick={loadData}
@@ -133,4 +133,6 @@ function NotionWidget() {
   );
 }
 
-widget.register(NotionWidget);
+export default function () {
+  widget.register(NotionWidget);
+}
