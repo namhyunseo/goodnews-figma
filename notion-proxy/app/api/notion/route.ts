@@ -32,7 +32,8 @@ export async function POST(request: NextRequest) {
     const notion = new Client({ auth: NOTION_TOKEN });
 
     // Query the database
-    const response = await (notion.databases as any).query({
+    // @ts-ignore
+    const response = await notion.databases.query({
       database_id: DATABASE_ID,
     });
 
