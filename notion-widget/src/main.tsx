@@ -15,7 +15,7 @@ function NotionWidget() {
   const [errorMsg, setErrorMsg] = useSyncedState<string>("errorMsg", "");
 
   // TODO: 배포 후 이 URL을 Vercel 프로젝트 URL로 변경해야 합니다.
-  const PROXY_URL = "https://YOUR_VERCEL_DOMAIN.vercel.app/api/notion";
+  const PROXY_URL = "https://goodnews-figma.vercel.app/api/notion";
   // 로컬 테스트용 URL: 'http://localhost:3000/api/notion'
 
   useEffect(() => {
