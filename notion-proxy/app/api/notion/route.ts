@@ -29,15 +29,25 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const notion = new Client({ auth: NOTION_TOKEN });
+    const url = `https://api.notion.com/v1/databases/${DATABASE_ID}/query`;
 
-    // Query the database
-    // @ts-ignore
-    const response = await notion.databases.query({
-      database_id: DATABASE_ID,
+    // Query the database using pure fetch API to avoid Vercel Serverless SDK bundling issues
+    const notionResponse = await fetch(url, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${NOTION_TOKEN}`,
+        "Notion-Version": "2022-06-28",
+        "Content-Type": "application/json",
+      },
     });
 
-    const parsedResults = response.results.map((item: any) => {
+    if (!notionResponse.ok) {
+      throw new Error(`Notion API returned ${notionResponse.status}`);
+    }
+
+    const data = await notionResponse.json();
+
+    const parsedResults = (data.results || []).map((item: any) => {
       const properties = item.properties || {};
 
       // Name title extract
@@ -45,8 +55,6 @@ export async function POST(request: NextRequest) {
       const title = titleProp.length > 0 ? titleProp[0].plain_text : "No Title";
 
       // Status extract
-      // Depending on actual Notion DB structure, it could be 'select' or 'status'
-      // Example uses 'Status' (Select property)
       const statusProp = properties.Status?.select;
       const status = statusProp
         ? statusProp.name
