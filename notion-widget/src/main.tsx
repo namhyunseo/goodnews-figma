@@ -91,18 +91,18 @@ function NotionWidget() {
         </AutoLayout>
       </AutoLayout>
 
-      {errorMsg && (
+      {errorMsg ? (
         <Text fontSize={14} fill="#FF0000">
           Error: {errorMsg}. (Check URL or Notion Token)
         </Text>
-      )}
+      ) : null}
 
       <AutoLayout direction="vertical" spacing={8}>
-        {!loading && data.length === 0 && !errorMsg && (
+        {!loading && data.length === 0 && !errorMsg ? (
           <Text fontSize={14} fill="#888">
             No items found.
           </Text>
-        )}
+        ) : null}
         {data.map((item) => (
           <AutoLayout
             key={item.id}
@@ -115,7 +115,7 @@ function NotionWidget() {
             verticalAlignItems="center"
           >
             <Text fontSize={16} fill="#111" width={200}>
-              {item.title}
+              {item.title || "Untitled"}
             </Text>
             <AutoLayout
               padding={{ vertical: 4, horizontal: 12 }}
@@ -123,7 +123,7 @@ function NotionWidget() {
               cornerRadius={16}
             >
               <Text fontSize={12} fontWeight="bold" fill="#0284C7">
-                {item.status}
+                {item.status || "No Status"}
               </Text>
             </AutoLayout>
           </AutoLayout>
