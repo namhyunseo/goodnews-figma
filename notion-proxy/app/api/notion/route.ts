@@ -42,7 +42,11 @@ export async function POST(request: NextRequest) {
     });
 
     if (!notionResponse.ok) {
-      throw new Error(`Notion API returned ${notionResponse.status}`);
+      const errorText = await notionResponse.text();
+      console.error("Notion API error details:", errorText);
+      throw new Error(
+        `Notion API returned ${notionResponse.status}: ${errorText}`,
+      );
     }
 
     const data = await notionResponse.json();
