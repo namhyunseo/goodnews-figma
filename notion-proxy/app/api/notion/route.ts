@@ -68,6 +68,7 @@ export async function POST(request: NextRequest) {
         id: item.id,
         title,
         status,
+        raw_properties: properties, // temporary for debugging
       };
     });
 
