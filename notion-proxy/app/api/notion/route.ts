@@ -54,21 +54,22 @@ export async function POST(request: NextRequest) {
     const parsedResults = (data.results || []).map((item: any) => {
       const properties = item.properties || {};
 
-      // Name title extract
-      const titleProp = properties.Name?.title || [];
+      // Name title extract (User's database uses '이름' instead of 'Name')
+      const titleProp = properties["이름"]?.title || [];
       const title = titleProp.length > 0 ? titleProp[0].plain_text : "No Title";
 
-      // Status extract
-      const statusProp = properties.Status?.select;
-      const status = statusProp
-        ? statusProp.name
-        : properties.Status?.status?.name || "No Status";
+      // Date extract (User's database uses '날짜' instead of 'Status')
+      const dateProp = properties["날짜"]?.date;
+      const status = dateProp
+        ? dateProp.end
+          ? `${dateProp.start} ~ ${dateProp.end}`
+          : dateProp.start
+        : "No Date";
 
       return {
         id: item.id,
         title,
         status,
-        raw_properties: properties, // temporary for debugging
       };
     });
 
